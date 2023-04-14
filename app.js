@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRoute = require('./routes/auth.route');
 
+var sequelize = require('./utils/db');
+
 var app = express();
 
 // view engine setup
@@ -19,6 +21,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('----------------------------- DB connection has been established successfully. -----------------------------');
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error);
+  });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
