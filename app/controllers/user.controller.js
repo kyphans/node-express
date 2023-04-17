@@ -33,7 +33,7 @@ const createUser = async (req, res, next) => {
       throw createError.Conflict(`${email} already exists`);
     }
     const user = await userService.createUser(name, email, password);
-    res.status(200).json(user); 
+    res.status(200).send('Create user successfully!'); 
   } catch (e) {
     next(e);
   }

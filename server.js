@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('./app/app');
 var debug = require('debug')('node-express:server');
 var http = require('http');
 require('dotenv').config()
@@ -27,7 +27,7 @@ var server = http.createServer(app);
  */
 
 server.listen(port, () => {
-  console.log(`App listening on port http://localhost:${port}`);
+  console.log(`App listening on port: http://localhost:${port}`);
 });
 server.on('error', onError);
 server.on('listening', onListening);
