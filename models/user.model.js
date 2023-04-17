@@ -41,7 +41,7 @@ User.init(
     modelName: 'User',
     tableName: 'users',
     timestamps: true,
-    underscored: true
+    underscored: true // Default is false. When set to true, it creates fields and table names for the model with an underscored format instead of camelCase format.
   }
 );
 

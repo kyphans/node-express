@@ -19,11 +19,14 @@ class UserService {
     }
   }
 
-  static async getUserByEmail(email) {
+  static async getUserByQuery(object_query) {
     try {
+      if (!object_query || typeof object_query !== 'object') {
+        throw new Error('Invalid query object');
+      }
       const user = await User.findAll({
-        where: { email: email }
-    });
+        where: object_query
+      });
       return user;
     } catch (error) {
       throw error;

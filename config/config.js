@@ -5,7 +5,8 @@ module.exports = {
       password: 'root',
       database: 'node_express',
       host: '127.0.0.1',
-      dialect: 'mysql'
+      dialect: 'mysql',
+      logging: true,
     }
   },
   production: {
