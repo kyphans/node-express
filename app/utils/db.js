@@ -16,4 +16,13 @@ const sequelize = new Sequelize(
   }
 );
 
+sequelize
+  .sync()
+  .then(() => {
+    console.log('All models were synchronized successfully.');
+  })
+  .catch((error) => {
+    console.error('An error occurred while synchronizing the models:', error);
+  });
+
 module.exports = sequelize;
