@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
+import usersRouter from './routes/users.route';
 import authRoute from './routes/auth.route';
 
 import sequelize from './utils/db';
@@ -25,7 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 sequelize
   .authenticate()
   .then(() => {
-    console.log('-------------------------- DB connection has been established successfully. --------------------------');
+    console.log(
+      '-------------------------- DB connection has been established successfully. --------------------------'
+    );
   })
   .catch((error) => {
     console.error('Unable to connect to the database:', error);
@@ -53,8 +55,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       status: err.status || 500,
       message: err.message
     }
-  })
+  });
 });
-
 
 export default app;

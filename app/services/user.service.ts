@@ -77,7 +77,6 @@ class UserService {
       // update the user with the new data
       user.name = payload.name ?? user.name;
       user.email = payload.email ?? user.email;
-      user.password = payload.password ?? user.password;
       const updatedUser = await user.save();
       return updatedUser;
     } catch (error) {

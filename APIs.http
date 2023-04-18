@@ -1,0 +1,44 @@
+################################################
+#                 REST CLIENT                  #
+################################################
+
+### Get all users
+GET http://localhost:3333/users HTTP/1.1
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiS3kgUGhhbiAyIiwiZW1haWwiOiJreXBoYW4yQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFhtd1VZay9jVW5xYllsdklBVzVtZE9CYktYR1puS3pWLlZpZFlld0FYeFliblpPOFRqZDJXIiwiaWF0IjoxNjgxODQyNTc5LCJleHAiOjE2ODE4NDI2MDl9.-oh3qPPqbhDP_8vd1Pb5sT5HancNjNcrFHI7fnpvm50
+
+### Register a new user
+POST http://localhost:3333/auth/register HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ky Phan 4",
+  "email": "kyphan4@gmail.com",
+  "password": "123456"
+}
+
+### Login
+POST http://localhost:3333/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "email": "kyphan2@gmail.com",
+  "password": "123456"
+}
+
+### Get user by ID
+GET http://localhost:3333/users/3 HTTP/1.1
+
+### Update user by ID
+PATCH http://localhost:3333/users/4 HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ky Phan 2",
+  "email": "kyphan2@gmail.com"
+}
+
+### Delete user by ID
+PATCH http://localhost:3333/users/delete/5 HTTP/1.1
+
+### Remove user by ID
+DELETE http://localhost:3333/users/delete/5 HTTP/1.1
