@@ -42,23 +42,39 @@ class UserService {
     }
   }
 
-  static async updateUserById(id: number, name: string, email: string, password: string) {
+  static async updateUserById(id: number, payload: any) {
     try {
-      const user = await User.findByPk(id);
+      const user = await User.findOne({ where: { id } });
       if (!user) {
         throw new Error('User not found');
       }
-      user.name = name;
-      user.email = email;
-      user.password = password;
-      await user.save();
-      return user;
+      // update the user with the new data
+      user.name = payload.name ?? user.name;
+      user.email = payload.email ?? user.email;
+      user.password = payload.password ?? user.password;
+      const updatedUser = await user.save();
+      return updatedUser;
     } catch (error) {
       throw error;
     }
   }
 
   static async deleteUserById(id: number) {
+    try {
+      const user = await User.findOne({ where: { id } });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      // update isDeleted for user
+      user.isDeleted = true;
+      const updatedUser = await user.save();
+      return updatedUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async removeUserById(id: number) {
     try {
       const user = await User.findByPk(id);
       if (!user) {

@@ -4,13 +4,14 @@ import { UserAttributes } from './interfaces/user.interface';
 
 // we're telling the Model that 'id, createdAt, updatedAt' is optional
 // when creating an instance of the model (such as using Model.create()).
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt' >  {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'isDeleted' | 'createdAt' | 'updatedAt'>  {}
 
 class User extends Model<UserAttributes, UserCreationAttributes>{
   declare id: number;
   declare name: string;
   declare email: string;
   declare password: string;
+  declare isDeleted: boolean;
   declare createdAt: Date;
   declare updatedAt: Date;
 }
@@ -35,6 +36,11 @@ User.init(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      field: 'is_deleted',
+      defaultValue: false, 
     },
     createdAt: {
       type: DataTypes.DATE,

@@ -14,7 +14,6 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
 
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
-  console.log('req.params', req.params);
   try {
     const user = await userService.getUserById(parseInt(id));
     res.status(200).json(user);
@@ -29,12 +28,46 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     if (!name || !email || !password) {
       throw createError.BadRequest('Body is missing required fields');
     }
-    const userDoesExists = await userService.getUserByQuery({email, name});
+    const userDoesExists = await userService.getUserByQuery({ email, name });
     if (userDoesExists.length) {
       throw createError.Conflict(`${email} already exists`);
     }
-    const user = await userService.createUser(name, email, password);
-    res.status(200).send('Create user successfully!'); 
+    await userService.createUser(name, email, password);
+    res.status(200).json('Create user successfully!');
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const updateUserById = async (req: Request, res: Response, next: NextFunction) => {
+  const payload = req.body;
+  const id = req.params.id;
+  try {
+    if (_.isEmpty(payload)) {
+      throw createError.BadRequest('No Body');
+    }
+    await userService.updateUserById(parseInt(id), payload);
+    res.status(200).json('Update user successfully!');
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const deleteUserById = async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.id;
+  try {
+    await userService.deleteUserById(parseInt(id));
+    res.status(200).json('Delete user successfully!');
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const removeUserById = async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.id;
+  try {
+    await userService.removeUserById(parseInt(id));
+    res.status(200).json('Remove user successfully!');
   } catch (e) {
     next(e);
   }
