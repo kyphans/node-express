@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon server"
+    "start": "nodemon app/server.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -19,6 +20,15 @@
     "sequelize": "^6.31.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "@types/cookie-parser": "^1.4.3",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/http-errors": "^2.0.1",
+    "@types/lodash": "^4.14.194",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.15.11",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }

@@ -1,8 +1,9 @@
-const _ = require('lodash');
-const createError = require('http-errors');
-const userService = require('../services/user.service');
+import { Request, Response, NextFunction } from 'express';
+import _ from 'lodash';
+import createError from 'http-errors';
+import userService from '../services/user.service';
 
-const getAllUsers = async (req, res, next) => {
+export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.getAllUser();
     res.status(200).json(users);
@@ -11,18 +12,18 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const getUserById = async (req, res, next) => {
-  const id = req.params.id || null;
+export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.id;
   console.log('req.params', req.params);
   try {
-    const user = await userService.getUserById(id);
+    const user = await userService.getUserById(parseInt(id));
     res.status(200).json(user);
   } catch (e) {
     next(e);
   }
 };
 
-const createUser = async (req, res, next) => {
+export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body;
   try {
     if (!name || !email || !password) {
@@ -37,10 +38,4 @@ const createUser = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-};
-
-module.exports = {
-  getAllUsers,
-  getUserById,
-  createUser
 };

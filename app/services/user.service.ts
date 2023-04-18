@@ -1,4 +1,4 @@
-const User = require('../models/user.model');
+import User from '../models/user.model';
 
 class UserService {
   static async getAllUser() {
@@ -10,7 +10,7 @@ class UserService {
     }
   }
 
-  static async createUser(name, email, password) {
+  static async createUser(name: string, email: string, password: string) {
     try {
       const user = await User.create({ name, email, password });
       return user;
@@ -19,7 +19,7 @@ class UserService {
     }
   }
 
-  static async getUserByQuery(object_query) {
+  static async getUserByQuery(object_query: any) {
     try {
       if (!object_query || typeof object_query !== 'object') {
         throw new Error('Invalid query object');
@@ -33,7 +33,7 @@ class UserService {
     }
   }
 
-  static async getUserById(id) {
+  static async getUserById(id: number) {
     try {
       const user = await User.findByPk(id);
       return user;
@@ -42,7 +42,7 @@ class UserService {
     }
   }
 
-  static async updateUserById(id, name, email, password) {
+  static async updateUserById(id: number, name: string, email: string, password: string) {
     try {
       const user = await User.findByPk(id);
       if (!user) {
@@ -58,7 +58,7 @@ class UserService {
     }
   }
 
-  static async deleteUserById(id) {
+  static async deleteUserById(id: number) {
     try {
       const user = await User.findByPk(id);
       if (!user) {
@@ -72,4 +72,4 @@ class UserService {
   }
 }
 
-module.exports = UserService;
+export default UserService;
