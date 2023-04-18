@@ -1,12 +1,14 @@
-const config = require('../config/config');
-const { Sequelize } = require('sequelize');
-const env = process.env.NODE_ENV || 'development';
-const dbConfig = config[env].db;
+import config, { Configs } from '../config/config';
+import { Sequelize } from 'sequelize';
+
+const env: string = process.env.NODE_ENV || 'development';
+const dbConfig = config[env as keyof Configs].db;
+
 
 /**
  * Create connection to MysSQL DB
  */
-const sequelize = new Sequelize(
+const sequelize: Sequelize = new Sequelize(
   dbConfig.database,
   dbConfig.username,
   dbConfig.password,
@@ -21,8 +23,8 @@ sequelize
   .then(() => {
     console.log('All models were synchronized successfully.');
   })
-  .catch((error) => {
+  .catch((error: Error) => {
     console.error('An error occurred while synchronizing the models:', error);
   });
 
-module.exports = sequelize;
+export default sequelize;

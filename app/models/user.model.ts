@@ -1,7 +1,19 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../utils/db');
+import { Model, DataTypes, Optional } from 'sequelize';
+import sequelize from '../utils/db';
+import { UserAttributes } from './interfaces/user.interface';
 
-class User extends Model {}
+// we're telling the Model that 'id, createdAt, updatedAt' is optional
+// when creating an instance of the model (such as using Model.create()).
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt' >  {}
+
+class User extends Model<UserAttributes, UserCreationAttributes>{
+  declare id: number;
+  declare name: string;
+  declare email: string;
+  declare password: string;
+  declare createdAt: Date;
+  declare updatedAt: Date;
+}
 
 User.init(
   {
@@ -33,7 +45,7 @@ User.init(
       type: DataTypes.DATE,
       field: 'updated_at',
       defaultValue: DataTypes.NOW,
-      onUpdate: DataTypes.NOW
+      // onUpdate: DataTypes.STRING
     }
   },
   {
@@ -45,4 +57,4 @@ User.init(
   }
 );
 
-module.exports = User;
+export default User;

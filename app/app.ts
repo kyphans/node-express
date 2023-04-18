@@ -1,14 +1,14 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+import createError from 'http-errors';
+import express, { Request, Response, NextFunction } from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const authRoute = require('./routes/auth.route');
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import authRoute from './routes/auth.route';
 
-const sequelize = require('./utils/db');
+import sequelize from './utils/db';
 
 const app = express();
 
@@ -25,11 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 sequelize
   .authenticate()
   .then(() => {
-    console.log('----------------------------- DB connection has been established successfully. -----------------------------');
+    console.log('-------------------------- DB connection has been established successfully. --------------------------');
   })
   .catch((error) => {
     console.error('Unable to connect to the database:', error);
-    next(error);
   });
 
 app.use('/', indexRouter);
@@ -37,12 +36,12 @@ app.use('/users', usersRouter);
 app.use('/auth', authRoute);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -57,4 +56,5 @@ app.use(function(err, req, res, next) {
   })
 });
 
-module.exports = app;
+
+export default app;
