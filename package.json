@@ -7,12 +7,14 @@
     "build": "tsc"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
@@ -20,6 +22,7 @@
     "sequelize": "^6.31.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",

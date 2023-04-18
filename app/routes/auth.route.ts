@@ -1,14 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { register, login } from '../controllers/auth.controller';
 
 const router = express.Router();
 
-router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
-  res.send('register');
-});
+router.post('/register', register);
 
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-  res.send('login');
-});
+router.post('/login', login);
 
 router.post('/refresh-token', async (req: Request, res: Response, next: NextFunction) => {
   res.send('refresh-token');

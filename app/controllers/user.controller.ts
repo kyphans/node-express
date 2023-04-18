@@ -28,10 +28,6 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     if (!name || !email || !password) {
       throw createError.BadRequest('Body is missing required fields');
     }
-    const userDoesExists = await userService.getUserByQuery({ email, name });
-    if (userDoesExists.length) {
-      throw createError.Conflict(`${email} already exists`);
-    }
     await userService.createUser(name, email, password);
     res.status(200).json('Create user successfully!');
   } catch (e) {
