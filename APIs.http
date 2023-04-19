@@ -4,7 +4,7 @@
 
 ### Get all users
 GET http://localhost:3333/users HTTP/1.1
-Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiS3kgUGhhbiAyIiwiZW1haWwiOiJreXBoYW4yQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFhtd1VZay9jVW5xYllsdklBVzVtZE9CYktYR1puS3pWLlZpZFlld0FYeFliblpPOFRqZDJXIiwiaWF0IjoxNjgxODQyNTc5LCJleHAiOjE2ODE4NDI2MDl9.-oh3qPPqbhDP_8vd1Pb5sT5HancNjNcrFHI7fnpvm50
+Authorization: Beaer 
 
 ### Register a new user
 POST http://localhost:3333/auth/register HTTP/1.1

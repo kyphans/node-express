@@ -5,9 +5,11 @@ import userService from '../services/user.service';
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log('getAllUsers');
     const users = await userService.getAllUser();
     res.status(200).json(users);
   } catch (e) {
+    console.log('getAllUsers err');
     next(e);
   }
 };
@@ -17,19 +19,6 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
   try {
     const user = await userService.getUserById(parseInt(id));
     res.status(200).json(user);
-  } catch (e) {
-    next(e);
-  }
-};
-
-export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  const { name, email, password } = req.body;
-  try {
-    if (!name || !email || !password) {
-      throw createError.BadRequest('Body is missing required fields');
-    }
-    await userService.createUser(name, email, password);
-    res.status(200).json('Create user successfully!');
   } catch (e) {
     next(e);
   }

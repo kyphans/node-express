@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import cors from 'cors';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users.route';
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 sequelize
   .authenticate()
@@ -34,8 +36,8 @@ sequelize
   });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth', authRoute);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/auth', authRoute);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
