@@ -22,7 +22,6 @@ export const authenticate = (
     }
     jwt.verify(token, ACCESS_TOKEN_SECRET, (err) => {
       if (err) {
-        console.log(err);
         throw createError.Forbidden();
       }
       next();
@@ -34,14 +33,8 @@ export const authenticate = (
 
 export const verifyRefreshToken = (refreshToken: string) => {
   try {
-    return new Promise((resolve, reject) => {
-      jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-          reject(createError.Forbidden());
-        }
-        resolve(decoded);
-      });
-    });
+    const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+    return decoded;
   } catch (err) {
     throw createError.BadRequest(
       'Something went wrong when verify refresh token'
@@ -51,7 +44,6 @@ export const verifyRefreshToken = (refreshToken: string) => {
 
 export const signAccessToken = (payload: object | string) => {
   try {
-    console.log('payload', payload);
     const options = {
       expiresIn: '5m'
     };

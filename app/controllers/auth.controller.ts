@@ -5,6 +5,8 @@ import createError from 'http-errors';
 import userService from '../services/user.service';
 import { verifyRefreshToken, signAccessToken, signRefreshToken, isValidPassword, hashPassword } from '../utils/auth';
 
+let refreshTokens: string[] = [];
+
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body;
   try {
@@ -35,13 +37,16 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     // Authorization
     const accessToken = signAccessToken({ name, email, password });
     const refreshToken = signRefreshToken({ name, email, password });
+    refreshTokens.push(refreshToken);
     // Add to model
-    res.status(200).json({
-      "message": "The password is correct",
-      "accessToken": accessToken,
-      "refreshToken": refreshToken,
-      "dataUser": { id, name, email }
-    });
+    res
+      .cookie('refreshToken', refreshToken, { httpOnly: true })
+      .status(200)
+      .json({
+        "message": "Login successfully!",
+        "accessToken": accessToken,
+        "dataUser": { id, name, email }
+      });
 
   } catch (e) {
     next(e);
@@ -51,18 +56,31 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 export const requestRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     //save list requestRefreshToken to DB
-    const refreshToken = req.body.refreshToken;
-    if (!refreshToken) {
+    const refreshTokenPayload = req.cookies.refreshToken;
+
+    if (!refreshTokenPayload) {
       throw createError.Unauthorized('Empty refresh-token');
     }
-    const decoded:any = await verifyRefreshToken(refreshToken);
-    const { name, email, password } = decoded;
+    if (!refreshTokens.includes(refreshTokenPayload)) {
+      throw createError.Forbidden('Invalid refresh-token');
+
+    }
+    const decoded: any = verifyRefreshToken(refreshTokenPayload);
+    const { id, name, email, password } = decoded;
 
     // Authorization
-    const newAccessToken = signAccessToken({ name, email, password });
-    const newRefreshToken = signRefreshToken({ name, email, password });
-    console.log('newToken', { newAccessToken, newRefreshToken });
-    res.status(200).json({ newAccessToken, newRefreshToken });
+    const accessToken = signAccessToken({ name, email, password });
+    const refreshToken = signRefreshToken({ name, email, password });
+    refreshTokens = refreshTokens.filter(token => token !== refreshTokenPayload)
+    refreshTokens.push(refreshToken);
+    res
+      .cookie('refreshToken', refreshToken, { httpOnly: true })
+      .status(200)
+      .json({
+        "message": "Refresh token successfully!",
+        "accessToken": accessToken,
+        "dataUser": { id, name, email }
+      });
   } catch (e) {
     next(e);
   }

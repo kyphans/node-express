@@ -5,11 +5,9 @@ import userService from '../services/user.service';
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('getAllUsers');
     const users = await userService.getAllUser();
     res.status(200).json(users);
   } catch (e) {
-    console.log('getAllUsers err');
     next(e);
   }
 };

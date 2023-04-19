@@ -3,21 +3,11 @@
 ################################################
 
 ### Get all users
-GET http://localhost:3333/users HTTP/1.1
-Authorization: Beaer 
-
-### Register a new user
-POST http://localhost:3333/auth/register HTTP/1.1
-content-type: application/json
-
-{
-  "name": "Ky Phan 4",
-  "email": "kyphan4@gmail.com",
-  "password": "123456"
-}
+GET http://localhost:3333/api/v1/users HTTP/1.1
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiS3kgUGhhbiAyIiwiZW1haWwiOiJreXBoYW4yQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFhtd1VZay9jVW5xYllsdklBVzVtZE9CYktYR1puS3pWLlZpZFlld0FYeFliblpPOFRqZDJXIiwiaWF0IjoxNjgxOTIzNTE2LCJleHAiOjE2ODE5MjM4MTZ9.xZbKQRB_LbBhf5gGdIRUxNqGGV1U5sgoKrHPZldmwPI
 
 ### Login
-POST http://localhost:3333/auth/login HTTP/1.1
+POST http://localhost:3333/api/v1/auth/login HTTP/1.1
 content-type: application/json
 
 {
@@ -25,11 +15,27 @@ content-type: application/json
   "password": "123456"
 }
 
+### Refresh Token
+POST http://localhost:3333/api/v1/auth/refresh-token HTTP/1.1
+content-type: application/json
+
+
+### Register a new user
+POST http://localhost:3333/api/v1/auth/register HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ky Phan",
+  "email": "kyphan@gmail.com",
+  "password": "123456"
+}
+
+
 ### Get user by ID
-GET http://localhost:3333/users/3 HTTP/1.1
+GET http://localhost:3333/api/v1/users/3 HTTP/1.1
 
 ### Update user by ID
-PATCH http://localhost:3333/users/4 HTTP/1.1
+PATCH http://localhost:3333/api/v1/users/4 HTTP/1.1
 content-type: application/json
 
 {
@@ -38,7 +44,7 @@ content-type: application/json
 }
 
 ### Delete user by ID
-PATCH http://localhost:3333/users/delete/5 HTTP/1.1
+PATCH http://localhost:3333/api/v1/users/delete/5 HTTP/1.1
 
 ### Remove user by ID
-DELETE http://localhost:3333/users/delete/5 HTTP/1.1
+DELETE http://localhost:3333/api/v1/users/delete/5 HTTP/1.1
