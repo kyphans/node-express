@@ -4,6 +4,8 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './../swagger';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users.route';
@@ -35,9 +37,12 @@ sequelize
     console.error('Unable to connect to the database:', error);
   });
 
+
 app.use('/', indexRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/auth', authRoute);
+// Add Swagger middleware
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

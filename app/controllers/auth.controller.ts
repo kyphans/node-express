@@ -5,6 +5,8 @@ import createError from 'http-errors';
 import userService from '../services/user.service';
 import { verifyRefreshToken, signAccessToken, signRefreshToken, isValidPassword, hashPassword } from '../utils/auth';
 
+// SHOULD BE STORE IN DB
+// CAN USE REDIS TO STORE AND CACHE LIST REFRESH TOKEN OF USERS
 let refreshTokens: string[] = [];
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,10 +35,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     if (!passwordMatch) {
       throw createError.Unauthorized('Invalid email or password');
     }
-    const { id, name, email, password } = user;
+    const { id, name, email } = user;
     // Authorization
-    const accessToken = signAccessToken({ name, email, password });
-    const refreshToken = signRefreshToken({ name, email, password });
+    const accessToken = signAccessToken({ id, name, email });
+    const refreshToken = signRefreshToken({ id, name, email });
     refreshTokens.push(refreshToken);
     // Add to model
     res
@@ -57,7 +59,6 @@ export const requestRefreshToken = async (req: Request, res: Response, next: Nex
   try {
     //save list requestRefreshToken to DB
     const refreshTokenPayload = req.cookies.refreshToken;
-
     if (!refreshTokenPayload) {
       throw createError.Unauthorized('Empty refresh-token');
     }
@@ -66,11 +67,11 @@ export const requestRefreshToken = async (req: Request, res: Response, next: Nex
 
     }
     const decoded: any = verifyRefreshToken(refreshTokenPayload);
-    const { id, name, email, password } = decoded;
+    const { id, name, email } = decoded;
 
     // Authorization
-    const accessToken = signAccessToken({ name, email, password });
-    const refreshToken = signRefreshToken({ name, email, password });
+    const accessToken = signAccessToken({ id, name, email });
+    const refreshToken = signRefreshToken({ id, name, email });
     refreshTokens = refreshTokens.filter(token => token !== refreshTokenPayload)
     refreshTokens.push(refreshToken);
     res

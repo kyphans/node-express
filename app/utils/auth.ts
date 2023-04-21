@@ -61,11 +61,11 @@ export const signRefreshToken = (payload: object | string) => {
     const options = {
       expiresIn: '90 days'
     };
-    const accessToken = jwt.sign(payload, REFRESH_TOKEN_SECRET, options);
-    return accessToken;
+    const refreshToken = jwt.sign(payload, REFRESH_TOKEN_SECRET, options);
+    return refreshToken;
   } catch (err) {
     throw createError.BadRequest(
-      'Something went wrong when signing access token'
+      'Something went wrong when signing refresh token'
     );
   }
 };
@@ -76,7 +76,7 @@ export const hashPassword = async (password: string) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     return hashedPassword;
   } catch (err) {
-    throw createError.BadRequest('Something went wrong when hash password');
+    throw createError.BadRequest('Something went wrong when hashing password');
   }
 };
 
@@ -88,6 +88,6 @@ export const isValidPassword = async (
     const isMatch = await bcrypt.compare(payloadPassword, userPassword);
     return isMatch;
   } catch (err) {
-    throw createError.BadRequest('Something went wrong when valid password');
+    throw createError.BadRequest('Something went wrong when validating password');
   }
 };

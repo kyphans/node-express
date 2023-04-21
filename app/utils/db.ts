@@ -6,7 +6,7 @@ const dbConfig = config[env as keyof Configs].db;
 
 
 /**
- * Create connection to MysSQL DB
+ * Create connection to MySQL DB
  */
 const sequelize: Sequelize = new Sequelize(
   dbConfig.database,
@@ -14,17 +14,18 @@ const sequelize: Sequelize = new Sequelize(
   dbConfig.password,
   {
     host: dbConfig.host,
-    dialect: dbConfig.dialect
+    dialect: dbConfig.dialect,
+    logging: false
   }
 );
 
-sequelize
-  .sync()
-  .then(() => {
-    console.log('All models were synchronized successfully.');
-  })
-  .catch((error: Error) => {
-    console.error('An error occurred while synchronizing the models:', error);
-  });
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+})();
 
 export default sequelize;

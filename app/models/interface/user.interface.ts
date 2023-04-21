@@ -7,3 +7,4 @@ export interface UserAttributes {
   createdAt: Date;
   updatedAt: Date;
 }
+export type UserDataResponse = Omit<UserAttributes, "password" | "isDeleted" | "createdAt" | "updatedAt">;

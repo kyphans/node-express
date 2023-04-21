@@ -1,6 +1,6 @@
 import { Model, DataTypes, Optional } from 'sequelize';
 import sequelize from '../utils/db';
-import { UserAttributes } from './interfaces/user.interface';
+import { UserAttributes } from './interface/user.interface';
 
 // we're telling the Model that 'id, createdAt, updatedAt' is optional
 // when creating an instance of the model (such as using Model.create()).
